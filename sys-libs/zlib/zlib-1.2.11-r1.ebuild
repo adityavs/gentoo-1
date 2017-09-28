@@ -117,7 +117,9 @@ multilib_src_install() {
 		sed_macros "${ED}"/usr/include/minizip/*.h
 	fi
 
-	use static-libs || rm -f "${ED}"/usr/$(get_libdir)/lib{z,minizip}.{a,la} #419645
+	find "${ED}" -name '*.la' -delete || die
+	# 419645
+	use static-libs || find "${ED}" -name '*.a' ! -name '*.dll.a' -delete || die
 }
 
 multilib_src_install_all() {
